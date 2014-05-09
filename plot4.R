@@ -1,0 +1,25 @@
+setwd("C:/Users/commander shepard/Documents/R")
+pwrconsumption<-read.table("C:\\Users\\commander shepard\\Documents_for_R\\courses\\04_ExploratoryAnalysis\\course project\\household_power_consumption.txt",sep=";",header=T)
+pwrconsumption[,1]<-as.Date(as.character(pwrconsumption[,1]), format="%d/%m/%Y")
+consumption<-subset(pwrconsumption, Date == c("2007-02-01", "2007-02-02"))
+consumption[,1]<-paste(consumption[,1],consumption[,2])
+consumption[,1]<-as.POSIXct(consumption[,1])
+par("mfcol"=c(2,2))
+## plot1
+plot(consumption[,1],y=consumption$Global_active_power,pch=".",ylab="Global Active Power (kilowatts)",xlab="",ylim=c(0,6))
+lines(x=consumption[,1],y=consumption$Global_active_power)
+## plot2
+plot(x=consumption[,1],y=consumption$Sub_metering_1,pch=".", ylab="Energy sub metering",xlab="")
+lines(x=consumption[,1],y=consumption$Sub_metering_1, col="black")
+points(x=consumption[,1],y=consumption$Sub_metering_2,pch=".",col="red")
+lines(x=consumption[,1],y=consumption$Sub_metering_2, col="red")
+points(x=consumption[,1],y=consumption$Sub_metering_3,pch=".",col="blue")
+lines(x=consumption[,1],y=consumption$Sub_metering_3, col="blue")
+legend("topright",legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), lty=c(1,1,1), col=c("black","red","blue"),bty="n",cex=0.8)
+## plot 3
+plot(x=consumption[,1],y=consumption$Voltage,pch=".", xlab="datetime",ylab="Voltage",main="")
+lines(x=consumption[,1],y=consumption$Voltage)
+## plot 4
+plot(x=consumption[,1],y=consumption$Global_reactive_power,type="lines", xlab="datetime",ylab="Global_reactive_power",main="")
+dev.copy(png,file="plot4.png",width = 480, height = 480)
+dev.off()
