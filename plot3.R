@@ -1,9 +1,10 @@
 setwd("C:/Users/commander shepard/Documents/R")
-pwrconsumption<-read.table("C:\\Users\\commander shepard\\Documents_for_R\\courses\\04_ExploratoryAnalysis\\course project\\household_power_consumption.txt",sep=";",header=T)
+pwrconsumption<-read.table("household_power_consumption.txt",sep=";",header=T,colClasses=c(rep("character",2),rep("numeric",7)),na.strings="?")
 pwrconsumption[,1]<-as.Date(as.character(pwrconsumption[,1]), format="%d/%m/%Y")
-consumption<-subset(pwrconsumption, Date == c("2007-02-01", "2007-02-02"))
+consumption<-subset(pwrconsumption, Date %in% as.Date(c("2007-02-01","2007-02-02")))
 consumption[,1]<-paste(consumption[,1],consumption[,2])
 consumption[,1]<-as.POSIXct(consumption[,1])
+#####
 plot(x=consumption[,1],y=consumption$Sub_metering_1,pch=".", ylab="Energy sub metering",xlab="")
 lines(x=consumption[,1],y=consumption$Sub_metering_1, col="black")
 points(x=consumption[,1],y=consumption$Sub_metering_2,pch=".",col="red")

@@ -1,9 +1,10 @@
 setwd("C:/Users/commander shepard/Documents/R")
-pwrconsumption<-read.table("C:\\Users\\commander shepard\\Documents_for_R\\courses\\04_ExploratoryAnalysis\\course project\\household_power_consumption.txt",sep=";",header=T)
+pwrconsumption<-read.table("household_power_consumption.txt",sep=";",header=T,colClasses=c(rep("character",2),rep("numeric",7)),na.strings="?")
 pwrconsumption[,1]<-as.Date(as.character(pwrconsumption[,1]), format="%d/%m/%Y")
-consumption<-subset(pwrconsumption, Date == c("2007-02-01", "2007-02-02"))
+consumption<-subset(pwrconsumption, Date %in% as.Date(c("2007-02-01","2007-02-02")))
 consumption[,1]<-paste(consumption[,1],consumption[,2])
 consumption[,1]<-as.POSIXct(consumption[,1])
+#######
 par("mfcol"=c(2,2))
 ## plot1
 plot(consumption[,1],y=consumption$Global_active_power,pch=".",ylab="Global Active Power (kilowatts)",xlab="",ylim=c(0,6))
@@ -23,3 +24,4 @@ lines(x=consumption[,1],y=consumption$Voltage)
 plot(x=consumption[,1],y=consumption$Global_reactive_power,type="lines", xlab="datetime",ylab="Global_reactive_power",main="")
 dev.copy(png,file="plot4.png",width = 480, height = 480)
 dev.off()
+
